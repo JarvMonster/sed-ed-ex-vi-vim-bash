@@ -7,6 +7,6 @@ printf "\e[?1049h" # enable alt screen buffer
 LINES=$(tput lines)
 printf "\e[$(($LINES - 1));0H" # move cursor to bottom
 
-./eds.sh "$@"
+edsh "$@"
 
 printf "\e[?1049l" # disable alt screen buffer
