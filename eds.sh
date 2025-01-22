@@ -187,7 +187,7 @@ while [[ 1 -gt 0 ]]; do
 
     # prompt string
     P*)
-      prompt="${prompt:1:${#prompt} - 1}"
+      prompt="${gcmd:1:${#gcmd} - 1}"
       ;;
 
     # quit, with warning
