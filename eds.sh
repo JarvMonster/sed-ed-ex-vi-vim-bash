@@ -298,7 +298,7 @@ while [[ 1 -gt 0 ]]; do
     # print line number of addressed line or total lines
     ?($)=)
       if [[ "${gcmd:0:1}" == "$" ]]; then
-        echo "$gbuffer" | wc -l
+        echo "$gbuffer" | sed -n '$='
       else
         echo "$address"
       fi
