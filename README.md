@@ -3,7 +3,7 @@
 
 Requires:
 
-- GNU Bash version 5
+- GNU bash version 5 (with GNU readline)
 - GNU sed
 - GNU less
 - GNU (ncurses) tput
