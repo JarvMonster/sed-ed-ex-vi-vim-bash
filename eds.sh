@@ -192,7 +192,7 @@ while [[ 1 -gt 0 ]]; do
 
     # quit, with warning
     q)
-      if [[ unsaved_work ]]; then
+      if [[ $unsaved_work ]]; then
         echo "? unsaved work"
       else
         exit 0
