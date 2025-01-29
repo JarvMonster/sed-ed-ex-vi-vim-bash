@@ -17,7 +17,7 @@ cut_buffer=""
 address="1"
 undo_address="1"
 
-if [[ "$(basename $0)" == "edsh" ]]; then prompt="*"; else prompt=":"; fi
+prompt=":"
 
 while [[ 1 -gt 0 ]]; do
 
