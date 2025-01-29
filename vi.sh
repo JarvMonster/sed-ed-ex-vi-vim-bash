@@ -15,14 +15,14 @@ bind -m vi-move '"k":previous-scren-line'
 bind -m vi-move '"j":next-screen-line'
 bind -m vi-move '"o":i\n'
 bind -m vi-move '"O":I\n'
-bind -m vi-move -x '"gQ":exsh $gfile'
 bind -m vi-insert '"\n":self-insert'
 bind -m vi-insert '"\r":\n'
 bind -m vi-insert '"\t":tab-insert'
 
-if [[ -n "$gfile" ]]; then insert_text=$(<"$gfile"); else insert_text=""; fi
+if [[ -n "$gfile" && -e "$gfile" ]]; then insert_text=$(<"$gfile"); else insert_text=""; fi
 
 IFS=
+
 read -er -d $'\04' -i "$insert_text" gettext
 
 bind -m vi-insert '"\n":accept-line'
