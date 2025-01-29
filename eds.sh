@@ -9,7 +9,7 @@ shopt -s extglob
 
 unsaved_work=0
 
-if [[ -n "$gfile" ]]; then gbuffer=$(<"$gfile"); else gbuffer=""; fi
+if [[ -n "$gfile" && -e "$gfile" ]]; then gbuffer=$(<"$gfile"); else gbuffer=""; fi
 
 undo_buffer=""
 cut_buffer=""
@@ -192,7 +192,7 @@ while [[ 1 -gt 0 ]]; do
 
     # quit, with warning
     q)
-      if [[ $unsaved_work ]]; then
+      if [[ $unsaved_work -gt 0 ]]; then
         echo "? unsaved work"
       else
         exit 0
@@ -222,11 +222,14 @@ while [[ 1 -gt 0 ]]; do
 
     # write to file
     *([:digit:])?(,)*([:digit:])w*([:space:])*)
-      tmp_gfile="$gfile"
-      gfile=$(echo "$gcmd" | sed 's/[[:digit:]]*,\?[[:digit:]]*w[[:space:]]*//')
-      if [[ -z "$gfile" ]]; then gfile="$tmp_gfile"; fi
-      if [[ -n "$gfile" ]]; then
+      if [[ -z "$gfile" ]]; then
+        gfile=$(echo "$gcmd" | sed 's/[[:digit:]]*,\?[[:digit:]]*w[[:space:]]*//')
+      fi
+      if [[ "$gcmd" =~ "*w*([:space:])*([;graph:])" ]]; then
         echo "$gbuffer" | sed -n "$gcmd"
+        unsaved_work=0
+      elif [[ -n "$gfile" ]]; then
+        echo "$gbuffer" | sed -n "$gcmd $gfile"
         unsaved_work=0
       else
         echo "? no filename"
@@ -235,9 +238,9 @@ while [[ 1 -gt 0 ]]; do
 
     # write to file and then quit
     *([:digit:])?(,)*([:digit:])wq)
-      tmp_gfile="$gfile"
-      gfile=$(echo "$gcmd" | sed 's/[[:digit:]]*,\?[[:digit:]]*wq[[:space:]]*//')
-      if [[ -z "$gfile" ]]; then gfile="$tmp_gfile"; fi
+      if [[ -z "$gfile" ]]; then
+        gfile=$(echo "$gcmd" | sed 's/[[:digit:]]*,\?[[:digit:]]*wq[[:space:]]*//')
+      fi
       if [[ -n "$gfile" ]]; then
         echo "$gbuffer" | sed -n "${gcmd:0:-1} $gfile"
         unsaved_work=0
@@ -249,9 +252,9 @@ while [[ 1 -gt 0 ]]; do
 
     # append lines to file
     *([:digit:])?(,)*([:digit:])W*([:space:])*)
-      tmp_gfile="$gfile"
-      gfile=$(echo "$gcmd" | sed 's/[[:digit:]]*,\?[[:digit:]]*W[[:space:]]*//')
-      if [[ -z "$gfile" ]]; then gfile="$tmp_gfile"; fi
+      if [[ -z "$gfile" ]]; then
+        gfile=$(echo "$gcmd" | sed 's/[[:digit:]]*,\?[[:digit:]]*W[[:space:]]*//')
+      fi
       if [[ -n "$gfile" ]]; then
         addr_space=$(echo "$gcmd" | sed 's/W[[:space:]]*[[:graph:]]*//')
         echo "$gbuffer" | sed -n "$addr_space"'p' >> "$gfile"
@@ -316,14 +319,6 @@ while [[ 1 -gt 0 ]]; do
       undo_adddress="$address"
       address=$(("$address" + 1))
       echo "$gbuffer" | sed -n "$address"'p'
-      ;;
-
-    v?(i))
-      if [[ $unsaved_work ]]; then
-        echo "? unsaved work"
-      else
-        vish "@gfile"
-      fi
       ;;
 
     # otherwise all other commands not recognized
