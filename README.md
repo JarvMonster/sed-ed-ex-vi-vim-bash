@@ -7,4 +7,4 @@ Requires:
 - GNU sed
 - GNU less
 - GNU (ncurses) tput
-- GNU screen.
+- GNU screen
