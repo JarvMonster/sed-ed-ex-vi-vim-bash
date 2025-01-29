@@ -318,6 +318,14 @@ while [[ 1 -gt 0 ]]; do
       echo "$gbuffer" | sed -n "$address"'p'
       ;;
 
+    v[i])
+      if [[ work_saved ]]; then
+        vish "$gfile"
+      else
+        echo "? work not saved"
+      fi
+      ;;
+
     # otherwise all other commands not recognized
     *)
       echo "? command not recognized"
