@@ -319,10 +319,10 @@ while [[ 1 -gt 0 ]]; do
       ;;
 
     v?(i))
-      if [[ work_saved ]]; then
-        vish "$gfile"
+      if [[ $unsaved_work ]]; then
+        echo "? unsaved work"
       else
-        echo "? work not saved"
+        vish "@gfile"
       fi
       ;;
 
