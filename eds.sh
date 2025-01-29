@@ -328,6 +328,7 @@ while [[ 1 -gt 0 ]]; do
         vish "@gfile"
         exit 0
       fi
+      ;;
 
     # otherwise all other commands not recognized
     *)
