@@ -95,11 +95,14 @@ while [[ 1 -gt 0 ]]; do
       ;;
 
     f*([:space:])*([:graph:]))
-      gfile=$(echo "$gcmd" | sed 's/f[[:space:]]*//')
-      if [[ -z "$gfile" ]]; then
-        echo "? no filename"
+      if [[ $unsaved_work -gt 0 ]]; then
+        echo "? unsaved work"
+      elif [[ "gcmd" =~ "f*([:space:])*([:graph:])" ]]; then
+        gfile=$(echo "$gcmd" | sed 's/f[[:space:]]*//')
+      elif [[ -n "$gfile" ]]; then
+        echo "Filename: $gfile"
       else
-        unsaved_work=1
+        echo "? no default filename"
       fi
       ;;
 
