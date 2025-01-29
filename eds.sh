@@ -325,7 +325,7 @@ while [[ 1 -gt 0 ]]; do
       if [[ $unsaved_work -gt 0 ]]; then
         echo "? unsaved work"
       else
-        vish "@gfile"
+        vish "$gfile"
         exit 0
       fi
       ;;
