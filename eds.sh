@@ -324,6 +324,7 @@ while [[ 1 -gt 0 ]]; do
       echo "$gbuffer" | sed -n "$address"'p'
       ;;
 
+    # visual mode (using vish)
     v?(i))
       if [[ $unsaved_work -gt 0 ]]; then
         echo "? unsaved work"
