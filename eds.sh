@@ -228,7 +228,7 @@ while [[ 1 -gt 0 ]]; do
       if [[ -z "$gfile" ]]; then
         gfile=$(echo "$gcmd" | sed 's/[[:digit:]]*,\?[[:digit:]]*w[[:space:]]*//')
       fi
-      if [[ "$gcmd" =~ "*w*([:space:])*([;graph:])" ]]; then
+      if [[ "$gcmd" =~ "*w*([:space:])*([:graph:])" ]]; then
         echo "$gbuffer" | sed -n "$gcmd"
         unsaved_work=0
       elif [[ -n "$gfile" ]]; then
